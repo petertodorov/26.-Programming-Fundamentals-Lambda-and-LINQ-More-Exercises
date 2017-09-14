@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+class StringDecryption
+{
+    static void Main()
+    {
+        List<int> input = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+        int skip = input[0];
+        int take = input[1];
+        List<int> numbers = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+        List<char> result = numbers.Where(i => i >= 65 && i <= 90).Skip(skip).Take(take).Select(i => Convert.ToChar(i)).ToList();
+        Console.WriteLine(string.Join("", result));
+    }
+}
