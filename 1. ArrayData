@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+class ArrayData
+{
+    static void Main()
+    {
+        List<int> input = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+        string command = Console.ReadLine();
+        double average = input.Average();
+        input.RemoveAll(i => i < average);
+
+        switch (command)
+        {
+            case "Min":
+                {
+                    Console.WriteLine(input.Min());
+                }
+                break;
+            case "Max":
+                {
+                    Console.WriteLine(input.Max());
+                }
+                break;
+            case "All":
+                {
+                    Console.WriteLine(string.Join(" ", input.OrderBy(x => x)));
+                }
+                break;
+        }
+    }
+}
