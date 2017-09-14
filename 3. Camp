@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+class Camping
+{
+    static void Main()
+    {
+        Dictionary<string, Dictionary<string, int>> data = new Dictionary<string, Dictionary<string, int>>();
+        while (true)
+        {
+            string[] input = Console.ReadLine().Split(' ');
+
+            if (input[0]!="end")
+            {
+                string nameOfThePerson = input[0];
+                string camperModel = input[1];
+                int timeToStay = int.Parse(input[2]);
+                if (!data.ContainsKey(nameOfThePerson))
+                {
+                    data.Add(nameOfThePerson, new Dictionary<string, int>());
+                }
+                if (!data[nameOfThePerson].ContainsKey(camperModel))
+                {
+                    data[nameOfThePerson].Add(camperModel, new int());
+                }
+                data[nameOfThePerson][camperModel] += timeToStay;
+            }
+            else
+            {
+                break;
+            }
+        }
+        foreach (var person in data.OrderBy(x=>-x.Value.Count).ThenBy(x=>x.Key.Length))
+        {
+            Console.WriteLine($"{person.Key}: {person.Value.Count}");
+            Dictionary<string, int> campers = person.Value;
+            foreach (var camper in campers)
+            {
+                Console.WriteLine($"***{camper.Key}");
+            }
+            Console.WriteLine($"Total stay: {campers.Values.Sum()} nights");
+        }
+    }
+}
