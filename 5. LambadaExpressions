@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+class LambadaExpressions
+{
+    static void Main()
+    {
+        Dictionary<string, Dictionary<string, string>> result = new Dictionary<string, Dictionary<string, string>>();
+        string input = Console.ReadLine();
+        while (input != "lambada")
+        {
+            string[] tokens = input.Split(new string[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
+            if (tokens[0] != "dance")
+            {
+                string selector = tokens[0];
+                string[] tempTokens = tokens[1].Split('.');
+                string selectorObject = tempTokens[0];
+                string property = tempTokens[1];
+                if (!result.ContainsKey(selector))
+                {
+                    result.Add(selector, new Dictionary<string, string>());
+                }
+                result[selector][selectorObject] = property;
+            }
+            else
+            {
+                result = result.ToDictionary(k => k.Key, v => v.Value.ToDictionary(inner => inner.Key, inner => inner.Key + "." + inner.Value)); 
+            }
+           
+            input = Console.ReadLine();
+        }
+        foreach (var item in result)
+        {
+            Dictionary<string, string> toPrint =item.Value;
+            Console.Write($"{item.Key} => ");
+            foreach (var print in toPrint)
+            {
+                Console.WriteLine($"{print.Key}.{print.Value}");
+            }
+        }
+    }
+}
