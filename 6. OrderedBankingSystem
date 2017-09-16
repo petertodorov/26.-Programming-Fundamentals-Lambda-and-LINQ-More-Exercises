@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+class OrderedBankingSystem
+{
+    static void Main()
+    {
+        Dictionary<string, Dictionary<string, decimal>> data = new Dictionary<string, Dictionary<string, decimal>>();
+        string input = Console.ReadLine();
+        string bank = string.Empty;
+        string account = string.Empty;
+        decimal balance = new decimal();
+
+        while (input != "end")
+        {
+            string[] tokens = input.Split(new string[] { " -> " }, StringSplitOptions.RemoveEmptyEntries);
+            bank = tokens[0];
+            account = tokens[1];
+            balance = decimal.Parse(tokens[2]);
+            if (!data.ContainsKey(bank))
+            {
+                data.Add(bank, new Dictionary<string, decimal>());
+            }
+            if (!data[bank].ContainsKey(account))
+            {
+                data[bank].Add(account, 0);
+
+            }
+            data[bank][account] += balance;
+            input = Console.ReadLine();
+        }
+        foreach (var item in data.OrderByDescending(x => x.Value.Values.Sum()).ThenByDescending(x => x.Value.Values.Max()))
+        {
+            Dictionary<string, decimal> toPrint = item.Value;
+            foreach (var i in toPrint.OrderByDescending(x => x.Value))
+            {
+                Console.WriteLine($"{i.Key} -> {i.Value} ({item.Key})");
+            }
+        }
+    }
+}
